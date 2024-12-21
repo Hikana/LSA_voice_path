@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>檔案監控與分析</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-gray-100">
+    <div class="container mx-auto px-4 py-8">
+        <div class="bg-white rounded-lg shadow-lg p-6">
+            <h1 class="text-2xl font-bold mb-4">檔案內容監控與 ChatGPT 分析</h1>
+
+            <div id="status" class="text-sm text-gray-500 mb-4">載入中...</div>
+
+            <div class="mb-4">
+                <h2 class="text-lg font-semibold mb-2">檔案內容</h2>
+                <div id="fileContent" class="bg-gray-50 p-4 rounded-lg whitespace-pre-wrap text-sm text-gray-700">尚無檔案內容</div>
+            </div>
+
+            <div class="mb-4">
+                <h2 class="text-lg font-semibold mb-2">ChatGPT 分析結果</h2>
+                <div id="chatgptAnalysis" class="bg-green-50 p-4 rounded-lg whitespace-pre-wrap text-sm text-gray-700">尚無分析結果</div>
+            </div>
+
+            <div class="mt-4">
+                <button onclick="refreshContent()" 
+                        class="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600">
+                    重新讀取檔案
+                </button>
+                <button onclick="analyzeWithChatGPT()" 
+                        class="bg-green-500 text-white px-4 py-2 rounded hover:bg-green-600 ml-2">
+                    使用 ChatGPT 分析
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function setStatus(message, isError = false) {
+            const statusDiv = document.getElementById('status');
+            statusDiv.textContent = message;
+            statusDiv.style.color = isError ? 'red' : 'gray';
+        }
+
+        function updateUI(data) {
+            const fileInfoDiv = document.getElementById('fileInfo');
+            const fileContentDiv = document.getElementById('fileContent');
+            const chatgptAnalysisDiv = document.getElementById('chatgptAnalysis');
+
+            if (data.info) {
+                fileInfoDiv.innerHTML = `
+                    檔案大小: ${data.info.size} bytes<br>
+                    最後修改: ${data.info.modified}
+                `;
+            }
+
+            if (data.content) {
+                fileContentDiv.textContent = data.content;
+            }
+
+            if (data.analysis) {
+                chatgptAnalysisDiv.textContent = data.analysis;
+            }
+        }
+
+        async function refreshContent() {
+            setStatus('正在重新讀取檔案...');
+            try {
+                const response = await fetch('/api/file/chatgpt');
+                const data = await response.json();
+
+                if (response.ok) {
+                    updateUI(data);
+                    setStatus('檔案已成功載入');
+                } else {
+                    setStatus(`錯誤：${data.error}`, true);
+                }
+            } catch (error) {
+                console.error('Error:', error);
+                setStatus('讀取檔案時發生錯誤', true);
+            }
+        }
+
+        async function analyzeWithChatGPT() {
+            setStatus('正在使用 ChatGPT 分析檔案內容...');
+            try {
+                const response = await fetch('/api/file/chatgpt');
+                const data = await response.json();
+
+                if (response.ok) {
+                    if (data.analysis) {
+                        const chatgptAnalysisDiv = document.getElementById('chatgptAnalysis');
+                        chatgptAnalysisDiv.textContent = data.analysis;
+                        setStatus('分析完成');
+                    } else {
+                        setStatus('未能獲取分析結果', true);
+                    }
+                } else {
+                    setStatus(`錯誤：${data.error}`, true);
+                }
+            } catch (error) {
+                console.error('Error:', error);
+                setStatus('分析時發生錯誤', true);
+            }
+        }
+
+        // 初始載入
+        refreshContent();
+
+        // 每30秒自動重新讀取
+        setInterval(refreshContent, 30000);
+    </script>
+</body>
+</html>

@@ -60,7 +60,7 @@ def index():
 # 文件內容與分析 API
 @app.route('/api/file/chatgpt', methods=['GET'])
 async def get_file_content_with_chatgpt():
-    filepath = os.path.join(WATCH_DIR, "readme.txt")  # 目標文件名為 readme.txt
+    filepath = os.path.join(WATCH_DIR, "error_log_123.txt")  # 目標文件名為 readme.txt
     print(f"嘗試讀取的檔案路徑: {filepath}")
 
     if not os.path.exists(filepath):

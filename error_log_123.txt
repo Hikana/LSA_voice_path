@@ -1,0 +1,20 @@
+Dec 22 14:18:57 hikana-VirtualBox systemd[1173]: app-gnome-gnome\x2dkeyring\x2dpkcs11-1499.scope: Failed to add PIDs to scope's control group: No such process
+Dec 22 14:18:57 hikana-VirtualBox systemd[1173]: app-gnome-gnome\x2dkeyring\x2dpkcs11-1499.scope: Failed with result 'resources'.
+Dec 22 14:18:57 hikana-VirtualBox systemd[1173]: Failed to start Application launched by gnome-session-binary.
+Dec 22 14:18:57 hikana-VirtualBox systemd[1173]: app-gnome-gnome\x2dkeyring\x2dsecrets-1495.scope: Failed to add PIDs to scope's control group: No such process
+Dec 22 14:18:57 hikana-VirtualBox systemd[1173]: app-gnome-gnome\x2dkeyring\x2dsecrets-1495.scope: Failed with result 'resources'.
+Dec 22 14:18:57 hikana-VirtualBox systemd[1173]: Failed to start Application launched by gnome-session-binary.
+Dec 22 14:18:57 hikana-VirtualBox systemd[1173]: app-gnome-gnome\x2dkeyring\x2dssh-1498.scope: Failed to add PIDs to scope's control group: No such process
+Dec 22 14:18:57 hikana-VirtualBox systemd[1173]: app-gnome-gnome\x2dkeyring\x2dssh-1498.scope: Failed with result 'resources'.
+Dec 22 14:18:57 hikana-VirtualBox systemd[1173]: Failed to start Application launched by gnome-session-binary.
+Dec 22 14:18:58 hikana-VirtualBox gnome-session[1463]: gnome-session-binary[1463]: GnomeDesktop-WARNING: Could not create transient scope for PID 1505: GDBus.Error:org.freedesktop.DBus.Error.UnixProcessIdUnknown: Process with ID 1505 does not exist.
+Dec 22 14:18:58 hikana-VirtualBox gnome-session-binary[1463]: GnomeDesktop-WARNING: Could not create transient scope for PID 1505: GDBus.Error:org.freedesktop.DBus.Error.UnixProcessIdUnknown: Process with ID 1505 does not exist.
+Dec 22 14:18:58 hikana-VirtualBox gnome-shell[1518]: Failed to initialize accelerated iGPU/dGPU framebuffer sharing: Not hardware accelerated
+Dec 22 14:18:58 hikana-VirtualBox gnome-shell[1518]: libEGL warning: egl: failed to create dri2 screen
+Dec 22 14:18:58 hikana-VirtualBox gnome-shell[1518]: libEGL warning: egl: failed to create dri2 screen
+Dec 22 14:18:58 hikana-VirtualBox snapd-desktop-i[1682]: Failed to do gtk init. Waiting for a new session with desktop capabilities.
+Dec 22 14:18:58 hikana-VirtualBox gnome-shell[1518]: meta_viewport_info_get_extents: assertion 'viewport_info != NULL' failed
+Dec 22 14:18:58 hikana-VirtualBox gnome-shell[1518]: message repeated 17 times: [ meta_viewport_info_get_extents: assertion 'viewport_info != NULL' failed]
+Dec 22 14:18:59 hikana-VirtualBox postfix/smtp[2082]: 3D67812010C: to=<hikana@hikana>, relay=none, delay=245508, delays=245508/0.03/0.47/0, dsn=4.4.3, status=deferred (Host or domain name not found. Name service error for name=hikana type=AAAA: Host not found, try again)
+Dec 22 14:18:59 hikana-VirtualBox systemd[1173]: Dependency failed for GNOME XSettings service.
+Dec 22 14:18:59 hikana-VirtualBox systemd[1173]: org.gnome.SettingsDaemon.XSettings.service: Job org.gnome.SettingsDaemon.XSettings.service/start failed with result 'dependency'.

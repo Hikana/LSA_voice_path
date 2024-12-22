@@ -2,7 +2,7 @@ import os
 import datetime
 import time
 
-def extract_error_logs(log_path="/var/log/syslog", output_path=None):
+def extract_error_logs(log_path="/var/log/syslog", output_path=None, max_lines=20):
     try:
         # check if the log exist
         if not os.path.exists(log_path):
@@ -22,20 +22,20 @@ def extract_error_logs(log_path="/var/log/syslog", output_path=None):
         error_logs = [
             log for log in logs
             if any(keyword in log.lower() for keyword in error_keywords)
-        ]
+        ][:max_lines]  # 限制抓取的日誌數量
 
         if not error_logs:
             print("No error logs found!")
             return
 
-        # 输出到指定文件或屏幕
+        # output to setting screen or file
         if output_path:
             with open(output_path, "w") as output_file:
                 output_file.writelines(error_logs)
             print(f"Error logs saved to {output_path}")
         else:
-            print("Error logs found: Displaying first 50 entries:")
-            for log in error_logs[:50]:  # 前50行避免屏幕刷屏
+            print(f"Error logs found: Displaying first {max_lines} entries:")
+            for log in error_logs:
                 print(log.strip())
 
     except PermissionError:
@@ -45,11 +45,9 @@ def extract_error_logs(log_path="/var/log/syslog", output_path=None):
 
 if __name__ == "__main__":
     print("log monitoring service is starting...")
-    # 文件name
     while True:
-        output_file = f"error_log_{datetime.datetime.now().strftime('%Y%m%d_%H%M%S')}.txt"
+        output_file = f"error_log_123.txt"
         print("Checking... logs...")
         log_path = "/var/log/syslog"  # path
-        extract_error_logs(log_path=log_path, output_path=output_file)
-        time.sleep(30)  # 每30秒检查一次
-
+        extract_error_logs(log_path=log_path, output_path=output_file, max_lines=20)  # limit 20
+        time.sleep(30)  # 30sec check

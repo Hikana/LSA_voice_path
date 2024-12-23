@@ -1,23 +1,19 @@
 from flask import Flask, render_template, jsonify
 import os
-import openai
+from openai import AsyncOpenAI
 from datetime import datetime
-from dotenv import load_dotenv
 import asyncio
 
-# 載入環境變數
-load_dotenv()
+OPENAI_API_KEY = "put here"
+
+aclient = AsyncOpenAI(api_key=OPENAI_API_KEY)
 
 # 初始化 Flask 應用
 app = Flask(__name__)
 
-# 設定目錄和 OpenAI API Key
-WATCH_DIR = os.getcwd()  # 當前工作目錄
-OPENAI_API_KEY = os.getenv("OPENAI_API_KEY")
-openai.api_key = OPENAI_API_KEY
+WATCH_DIR = os.getcwd()  
 print(f"監控目錄: {WATCH_DIR}")
 
-# 文件讀取工具類
 class FileReader:
     @staticmethod
     def read_file(filepath):
@@ -41,7 +37,7 @@ class FileReader:
 # ChatGPT 處理文件內容
 async def process_with_gpt(content):
     try:
-        response = await openai.ChatCompletion.acreate(
+        response = await aclient.chat.completions.create(
             model="gpt-3.5-turbo",
             messages=[
                 {"role": "system", "content": "你是一個文件分析助手。"},
@@ -50,17 +46,16 @@ async def process_with_gpt(content):
         )
         return response.choices[0].message.content
     except Exception as e:
-        return f"{str(e)}"
+        return f"Error: {str(e)}"
 
-# 頁面路由
 @app.route('/')
 def index():
     return render_template('index.html')
 
-# 文件內容與分析 API
+# 文件內容與分析API
 @app.route('/api/file/chatgpt', methods=['GET'])
 async def get_file_content_with_chatgpt():
-    filepath = os.path.join(WATCH_DIR, "error_log_123.txt")  # 目標文件名為 readme.txt
+    filepath = os.path.join(WATCH_DIR, "error_log_123.txt")
     print(f"嘗試讀取的檔案路徑: {filepath}")
 
     if not os.path.exists(filepath):
@@ -80,7 +75,7 @@ async def get_file_content_with_chatgpt():
     })
 
 if __name__ == '__main__':
-    # 在 Windows 上支持 asyncio 的事件循環
+    # 在 Windows 上支持 asyncio 的事件循环
     if os.name == "nt":
         asyncio.set_event_loop_policy(asyncio.WindowsSelectorEventLoopPolicy())
 

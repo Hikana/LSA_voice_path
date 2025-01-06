@@ -10,11 +10,13 @@
 架設已FLASK架構為主得網站時，常常報錯，卻不知道從何開 Debug ，於是採用了最簡單而暴力的方式，把 Error Log 貼給 GPT 。
 
 ## 工具能做到的事:
-不須頻繁切換瀏覽器的 GPT 頁面，而是直接將 Error Log 轉成 txt 檔案，寫個小外掛再將 txt 丟給 GPT。
+不須頻繁切換瀏覽器的 GPT 頁面，而是直接將 Error Log 轉成 txt 檔案，寫個小外掛再將 txt 丟給 GPT ， 最終結果以網頁方式呈現。
 
-## 環境架設:
+## 環境 Setting 說明:
 
-Linux Service
+撰寫定時讀檔案的服務
+
+[Linux Service]
 
 /etc/systemd/system
 
@@ -35,6 +37,7 @@ WorkingDirectory=/home/hikana/Desktop/LSA_Ai_Ids/LSA_Ai_Ids/
 StandardOutput=journal
 StandardError=journal
 ```
+
 [Install]
 WantedBy=multi-user.target
 
@@ -43,3 +46,7 @@ use
 pip install -r requirements.txt
 pip install flask[asnyc]
 before using the code
+
+## 讀取檔案程式友善提醒:
+
+GPT API 部分請自行替換成可使用 API 金鑰。
